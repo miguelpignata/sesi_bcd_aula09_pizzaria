@@ -1,6 +1,3 @@
--- Banco de dados Pizzaria, Baseado no exemplo do livro Princípios de banco de dados com MySQL 5.7
--- Editora SENAI - 2019
--- Comandos DDL para criar a estrutura do banco de dados
 drop database if exists Pizzaria;
 create database Pizzaria charset=UTF8 collate utf8_general_ci;
 use Pizzaria;
@@ -46,7 +43,6 @@ create table Itens_Pedido(
 	foreign key (pizza_id) references Pizzas(pizza_id)
 );
 
--- Comandos DML para popular o banco de dados com registros
 insert into Clientes(nome, logradouro, numero, complemento, bairro, referencia) values
 ("Adelcio Biazi","Rua Wellington Martins",1204,"Fundos","Dom Bosco","Igreja"),
 ("Adriano da Silva Ferreira","Rua Walter Paulo Costenaro",1206,null,"Bela Vista","Farmácia"),
@@ -425,7 +421,7 @@ insert into Telefones(cliente_id, Telefone) values
 (105,"1930032618"),
 (105,"1930029060"),
 (105,"1930032703");
--- Inseridos dados de teste sempre recentes utilizando as funções Date_sub() e curdate()
+
 insert into Pedidos(cliente_id, data, hora) values(1,DATE_SUB(curdate(),INTERVAL 10 DAY),"13:54:00");
 insert into Pedidos(cliente_id, data, hora) values(2,DATE_SUB(curdate(),INTERVAL 10 DAY),"12:12:00");
 insert into Pedidos(cliente_id, data, hora) values(2,DATE_SUB(curdate(),INTERVAL 10 DAY),"14:12:00");
@@ -494,9 +490,6 @@ insert into Pizzas(nome, descricao, valor) values("Torino","Molho de tomate fres
 insert into Pizzas(nome, descricao, valor) values("Toscana","Molho de tomate fresco, calabresa moída especial, cobertura de mussarela, orégano e azeitonas pretas",29.41);
 insert into Pizzas(nome, descricao, valor) values("Veneza","Molho de tomate fresco, presunto cozido picado, azeitona verde fatiada, cobertura de mussarela especial e orégano",29.25);
 insert into Pizzas(nome, descricao, valor) values("Vienense","Molho de tomate fresco, mussarela especial, calabresa especial fatiada, rodelas de cebola, orégano e azeitonas pretas",29.09);
-
--- Insert com select para pegar o valor da Pizzas e copiar para o valor doítem Pedidos
--- OBS: Supondo que as Pizzass tenham sido vendidas pelo preço cadastrado
 
 insert into Itens_Pedido(pedido_id, pizza_id, quantidade, valor) values(1,1,1, (select valor from Pizzas where pizza_id = 1));
 insert into Itens_Pedido(pedido_id, pizza_id, quantidade, valor) values(1,3,2, (select valor from Pizzas where pizza_id = 3));
@@ -608,9 +601,6 @@ insert into Itens_Pedido(pedido_id, pizza_id, quantidade, valor) values(26,3,1, 
 insert into Itens_Pedido(pedido_id, pizza_id, quantidade, valor) values(26,2,2, (select valor from Pizzas where pizza_id = 2));
 insert into Itens_Pedido(pedido_id, pizza_id, quantidade, valor) values(26,1,3, (select valor from Pizzas where pizza_id = 1));
 
--- Exemplo de Update para preencher o valor do Pedidos somando as Pizzass
--- OBS: Somente exemplo, por ser um campo calculado, não é necessário existir na tabela.
-
 update Pedidos set valor=(select sum(quantidade * valor) from Itens_Pedido where pedido_id = 1) where pedido_id = 1;
 update Pedidos set valor=(select sum(quantidade * valor) from Itens_Pedido where pedido_id = 2) where pedido_id = 2;
 update Pedidos set valor=(select sum(quantidade * valor) from Itens_Pedido where pedido_id = 3) where pedido_id = 3;
@@ -644,5 +634,4 @@ select * from Telefones;
 select * from Pedidos;
 select * from Itens_Pedido;
 
--- Mostrar todas as tabelas no fim do script
 show tables;

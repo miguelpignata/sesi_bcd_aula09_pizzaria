@@ -840,7 +840,7 @@ O bloco DML completo, incluindo os comandos de conferência, está no
 arquivo `queries.sql`. Para executá-lo separadamente, utilize o trecho a
 seguir:
 
-DML: cadastro do cliente Gaspar e seu primeiro pedido
+### DML: cadastro do cliente Gaspar e seu primeiro pedido
 
 ``` sql
 INSERT INTO Clientes (nome, logradouro, numero, bairro, referencia)
@@ -853,7 +853,7 @@ INSERT INTO Telefones (cliente_id, telefone)
 VALUES (@gaspar_id, '19 99898-1141');
 ```
 
-Pedido inicial: 1 Margherita e 2 Napolitanas
+### Pedido inicial: 1 Margherita e 2 Napolitanas
 
 ```sql
 INSERT INTO Pedidos (cliente_id, data, hora, valor)
@@ -878,7 +878,7 @@ SET valor = (
 WHERE pedido_id = @pedido_inicial;
 ```
 
-Acrescentar a pizza A moda do chef ao cardápio
+### Acrescentar a pizza A moda do chef ao cardápio
 
 ```sql
 INSERT INTO Pizzas (nome, descricao, valor)
@@ -889,7 +889,7 @@ VALUES (
 );
 ```
  
-Segundo pedido de Gaspar: inicialmente 2 pizzas A moda do chef
+### Segundo pedido de Gaspar: inicialmente 2 pizzas A moda do chef
 
 ```sql
 INSERT INTO Pedidos (cliente_id, data, hora, valor)
@@ -902,7 +902,7 @@ SELECT @pedido_chef, pizza_id, 2, valor
 FROM Pizzas WHERE nome = 'A moda do chef';
 ```
 
-Atualização solicitada: alterar para 3 A moda do chef
+### Atualização solicitada: alterar para 3 A moda do chef
 
 ```sql
 UPDATE Itens_Pedido
@@ -911,14 +911,15 @@ WHERE pedido_id = @pedido_chef
   AND pizza_id = (SELECT pizza_id FROM Pizzas WHERE nome = 'A moda do chef');
 ```
 
-Acrescentar 1 Margherita ao mesmo pedido
+### Acrescentar 1 Margherita ao mesmo pedido
 
 ```sql
 INSERT INTO Itens_Pedido (pedido_id, pizza_id, quantidade, valor)
 SELECT @pedido_chef, pizza_id, 1, valor
 FROM Pizzas WHERE nome = 'Margherita';
 ```
-Recalcular o valor total do pedido atualizado
+
+### Recalcular o valor total do pedido atualizado
 
 ```sql
 UPDATE Pedidos
@@ -930,7 +931,7 @@ SET valor = (
 WHERE pedido_id = @pedido_chef;
 ```
 
-Conferir os dois pedidos de Gaspar
+### Conferir os dois pedidos de Gaspar
 
 ```sql
 SELECT p.pedido_id, c.nome, p.data, p.hora, p.valor,
